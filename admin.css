@@ -1,0 +1,90 @@
+.admin-section {
+  padding: 56px 24px 100px;
+}
+
+.admin-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.admin-card-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 0 20px;
+}
+
+.admin-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-avatar-preview {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.admin-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-project-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.admin-project-thumb {
+  width: 64px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--surface-alt);
+  flex-shrink: 0;
+}
+
+.admin-project-info { flex: 1; min-width: 0; }
+.admin-project-info h3 { margin: 0 0 2px; font-size: 15px; font-family: var(--font-body); font-weight: 700; }
+.admin-project-info p { margin: 0; font-size: 13px; color: var(--muted); }
+
+.admin-delete-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: #d9534f;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.admin-delete-btn:hover { border-color: #d9534f; }
+
+input[type="file"] {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
