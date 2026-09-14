@@ -1,6 +1,7 @@
 import { db, auth, CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from "./firebase-init.js";
 import {
-  signInWithEmailAndPassword, signOut, onAuthStateChanged
+  signInWithEmailAndPassword, signOut, onAuthStateChanged,
+  setPersistence, browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   collection, addDoc, deleteDoc, doc, setDoc, getDoc,
@@ -29,6 +30,10 @@ document.querySelector("#login-form").addEventListener("submit", async (e) => {
   const errorEl = document.querySelector("#login-error");
   errorEl.style.display = "none";
   try {
+    // Session-only login: closing the tab/browser signs you out, so the
+    // password is asked for again next time (instead of staying logged in
+    // forever on that device).
+    await setPersistence(auth, browserSessionPersistence);
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     errorEl.textContent = "Login failed — check your email and password.";
@@ -84,22 +89,47 @@ function initDashboard() {
   document.querySelector("#project-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const status = document.querySelector("#project-status");
-    const file = document.querySelector("#p-file").files[0];
-    if (!file) return;
-    status.textContent = "Uploading…";
+    const files = Array.from(document.querySelector("#p-file").files);
+    if (!files.length) return;
+
     try {
-      const { url, resourceType } = await uploadToCloudinary(file);
-      await addDoc(collection(db, "projects"), {
-        title: document.querySelector("#p-title").value.trim(),
-        description: document.querySelector("#p-desc").value.trim(),
-        category: document.querySelector("#p-category").value,
-        featured: document.querySelector("#p-featured").checked,
-        wide: document.querySelector("#p-wide").checked,
-        mediaUrl: url,
-        mediaType: resourceType === "video" ? "video" : "image",
-        order: Date.now(),
-        createdAt: serverTimestamp(),
-      });
+      if (files.length === 1) {
+        // Single image or video, same as before.
+        status.textContent = "Uploading…";
+        const { url, resourceType } = await uploadToCloudinary(files[0]);
+        await addDoc(collection(db, "projects"), {
+          title: document.querySelector("#p-title").value.trim(),
+          description: document.querySelector("#p-desc").value.trim(),
+          category: document.querySelector("#p-category").value,
+          featured: document.querySelector("#p-featured").checked,
+          wide: document.querySelector("#p-wide").checked,
+          mediaType: resourceType === "video" ? "video" : "image",
+          mediaUrl: url,
+          order: Date.now(),
+          createdAt: serverTimestamp(),
+        });
+      } else {
+        // Multiple files selected — this becomes a "folder" (gallery).
+        // Visitors see one folder card; clicking it opens all the images.
+        const urls = [];
+        for (let i = 0; i < files.length; i++) {
+          status.textContent = `Uploading ${i + 1} of ${files.length}…`;
+          const { url } = await uploadToCloudinary(files[i]);
+          urls.push(url);
+        }
+        await addDoc(collection(db, "projects"), {
+          title: document.querySelector("#p-title").value.trim(),
+          description: document.querySelector("#p-desc").value.trim(),
+          category: document.querySelector("#p-category").value,
+          featured: document.querySelector("#p-featured").checked,
+          wide: document.querySelector("#p-wide").checked,
+          mediaType: "gallery",
+          mediaUrl: urls[0],
+          mediaUrls: urls,
+          order: Date.now(),
+          createdAt: serverTimestamp(),
+        });
+      }
       document.querySelector("#project-form").reset();
       status.textContent = "Project added.";
       setTimeout(() => (status.textContent = ""), 3000);
@@ -128,7 +158,7 @@ function initDashboard() {
             ${thumb}
             <div class="admin-project-info">
               <h3>${escapeHtml(p.title || "Untitled")}</h3>
-              <p>${p.category === "video" ? "Video Editing" : "Graphic Design"}${p.featured ? " · Featured" : ""}</p>
+              <p>${p.category === "video" ? "Video Editing" : "Graphic Design"}${p.featured ? " · Featured" : ""}${p.mediaType === "gallery" ? ` · Folder (${p.mediaUrls?.length || 0} images)` : ""}</p>
             </div>
             <button class="admin-delete-btn" data-id="${d.id}">Delete</button>
           </div>
