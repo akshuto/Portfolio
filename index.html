@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="avatar-ring">
-      <img data-avatar src="Akshuto LOGO.png" alt="Akshuto profile picture">
+      <img data-avatar src="assets/akshuto-logo.png" alt="Akshuto profile picture">
     </div>
   </div>
 </header>
@@ -71,6 +71,21 @@
 </footer>
 
 <script src="script.js"></script>
+<!-- Project viewer (opens when a work card is clicked) -->
+<div class="lightbox-overlay" id="lightbox">
+  <div class="lightbox-box">
+    <div class="lightbox-header">
+      <div>
+        <span class="tag" id="lightbox-tag"></span>
+        <h3 class="card-title" id="lightbox-title" style="margin-top: 6px;"></h3>
+        <p class="card-desc" id="lightbox-desc"></p>
+      </div>
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+    </div>
+    <div class="lightbox-media-grid" id="lightbox-grid"></div>
+  </div>
+</div>
+
 <script type="module" src="site-data.js"></script>
 </body>
 </html>
