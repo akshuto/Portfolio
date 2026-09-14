@@ -11,6 +11,13 @@ import {
 const loginView = document.querySelector("#login-view");
 const dashboardView = document.querySelector("#dashboard-view");
 
+// Force session-only login BEFORE checking auth state, on every page load —
+// not just when the login form is submitted. This guarantees any old
+// "stay logged in" session from earlier testing gets replaced by a
+// session-only one the moment this page runs, instead of only switching
+// over the next time someone logs in.
+await setPersistence(auth, browserSessionPersistence);
+
 // ---------- Auth gate ----------
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -30,10 +37,6 @@ document.querySelector("#login-form").addEventListener("submit", async (e) => {
   const errorEl = document.querySelector("#login-error");
   errorEl.style.display = "none";
   try {
-    // Session-only login: closing the tab/browser signs you out, so the
-    // password is asked for again next time (instead of staying logged in
-    // forever on that device).
-    await setPersistence(auth, browserSessionPersistence);
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     errorEl.textContent = "Login failed — check your email and password.";
