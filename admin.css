@@ -1,0 +1,354 @@
+.admin-section {
+  padding: 56px 24px 100px;
+}
+
+.admin-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.admin-card-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 0 20px;
+}
+
+.admin-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-avatar-preview {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.admin-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-project-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.admin-project-thumb {
+  width: 64px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--surface-alt);
+  flex-shrink: 0;
+}
+
+.admin-project-info { flex: 1; min-width: 0; }
+.admin-project-info h3 { margin: 0 0 2px; font-size: 15px; font-family: var(--font-body); font-weight: 700; }
+.admin-project-info p { margin: 0; font-size: 13px; color: var(--muted); }
+
+.admin-delete-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: #d9534f;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.admin-delete-btn:hover { border-color: #d9534f; }
+
+.admin-edit-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.admin-edit-btn:hover { border-color: var(--accent); }
+
+.edit-file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.edit-file-item {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+.edit-file-item.is-cover { border-color: var(--accent); }
+
+.edit-file-item img,
+.edit-file-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-file-cover-tag {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.edit-file-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(13, 13, 15, 0.85);
+  color: var(--text);
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-file-remove:hover { background: #d9534f; }
+
+input[type="file"] {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+/* ============ Top-level tab switcher (Portfolio / Tracker) ============ */
+.admin-top-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-top-tab {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 12px 4px;
+  margin-right: 24px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.admin-top-tab.active { color: var(--text); border-color: var(--accent); }
+
+/* ============ Tracker (Ledger) — namespaced tk- classes ============ */
+.tk-subtabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+
+.tk-subtab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.tk-subtab.active { background: var(--accent); color: var(--ink); border-color: var(--accent); font-weight: 700; }
+
+.tk-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tk-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.tk-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.tk-card .tk-label { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+.tk-card .tk-num { font-size: 26px; font-weight: 700; font-family: var(--font-display); }
+.tk-card.ok .tk-num { color: #3ecf8e; }
+.tk-card.wait .tk-num { color: #f2b134; }
+
+.tk-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+
+.tk-tabs button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tk-tabs button.active { background: var(--accent-2); color: var(--ink); border-color: var(--accent-2); font-weight: 700; }
+
+.tk-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 13.5px;
+}
+
+.tk-table th, .tk-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+.tk-table th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+.tk-table tr:last-child td { border-bottom: none; }
+
+.tk-status { padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; display: inline-block; }
+.tk-status.pending { background: rgba(242, 177, 52, 0.15); color: #f2b134; }
+.tk-status.process { background: rgba(255, 90, 31, 0.15); color: var(--accent); }
+.tk-status.cleared { background: rgba(62, 207, 142, 0.15); color: #3ecf8e; }
+
+.tk-row-actions { display: flex; gap: 6px; }
+
+.tk-icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tk-icon-btn:hover { color: var(--text); border-color: var(--accent); }
+
+.tk-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 600px) { .tk-grid2 { grid-template-columns: 1fr; } }
+
+.tk-logo-row { display: flex; align-items: center; gap: 16px; }
+
+.tk-logo-preview {
+  width: 56px; height: 56px; border-radius: 10px;
+  background: var(--surface-alt); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0; color: var(--muted);
+}
+
+.tk-logo-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+.tk-bank-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tk-bank-row:last-child { border-bottom: none; }
+
+@media (max-width: 700px) { .tk-bank-row { grid-template-columns: 1fr 1fr; } }
+
+.tk-check-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13.5px;
+}
+
+.tk-check-row:last-child { border-bottom: none; }
+.tk-check-row .tk-grow { flex: 1; }
+.tk-check-row .tk-muted { color: var(--muted); font-size: 12px; }
+
+/* Invoice document — deliberately printed on white paper regardless of the
+   dark admin theme, since it's meant to be read/printed by a client. */
+.tk-invoice-doc {
+  background: #fff; color: #1a1a1a; border-radius: 2px;
+  padding: 32px 32px 0; font-size: 13.5px; border-left: 8px solid #16215c;
+}
+
+.tk-invoice-doc h2 { font-family: var(--font-display); margin: 0; }
+.tk-inv-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; gap: 16px; }
+.tk-inv-head-left { display: flex; gap: 12px; align-items: center; }
+.tk-inv-head-left img { width: 50px; height: 50px; object-fit: contain; border-radius: 50%; }
+.tk-inv-head-left .tk-biz-name { color: #16215c; font-weight: 800; font-size: 18px; }
+.tk-inv-head-left .tk-biz-tagline { color: #16215c; font-size: 10px; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+.tk-inv-head-right { text-align: right; }
+.tk-inv-head-right .tk-inv-label { color: #16215c; font-weight: 800; font-size: 20px; letter-spacing: 1px; }
+.tk-inv-head-right .tk-inv-num { color: #e2661c; font-weight: 700; font-size: 12px; margin-top: 2px; }
+.tk-inv-rule { border: none; border-top: 2px solid #16215c; margin: 0 0 16px; }
+.tk-inv-2col { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 14px; flex-wrap: wrap; }
+.tk-inv-2col h4 { margin: 0 0 4px; font-size: 11px; color: #16215c; font-weight: 800; }
+.tk-inv-2col .tk-val { font-size: 13px; }
+.tk-inv-pay div { font-size: 12px; margin: 2px 0; }
+.tk-inv-pay b { color: #16215c; }
+.tk-inv-contact { margin-bottom: 18px; }
+.tk-inv-contact h4 { margin: 0 0 4px; font-size: 11px; color: #16215c; font-weight: 800; }
+.tk-inv-contact div { font-size: 12px; margin: 2px 0; }
+.tk-inv-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; background: #fff; }
+.tk-inv-table thead th { border-bottom: 2px solid #16215c; padding: 8px 4px; font-size: 11px; color: #16215c; text-transform: uppercase; text-align: left; font-weight: 800; background: #fff; }
+.tk-inv-table td { padding: 9px 4px; border-bottom: 1px solid #e2e2e2; font-size: 12.5px; vertical-align: top; color: #1a1a1a; background: #fff; }
+.tk-inv-totals { margin-left: auto; width: 220px; font-size: 13px; margin-bottom: 16px; }
+.tk-inv-totals div { display: flex; justify-content: space-between; padding: 5px 0; border-top: 1px solid #e2e2e2; }
+.tk-inv-totals .tk-grand { font-weight: 800; color: #16215c; font-size: 14px; }
+.tk-inv-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding-top: 6px; }
+.tk-inv-terms { font-size: 11px; max-width: 60%; }
+.tk-inv-terms h4 { margin: 0 0 6px; font-size: 11px; color: #16215c; font-weight: 800; }
+.tk-inv-terms ul { margin: 0; padding-left: 16px; color: #333; }
+.tk-inv-terms li { margin-bottom: 3px; }
+.tk-inv-seal { width: 60px; height: 60px; object-fit: contain; flex-shrink: 0; }
+.tk-inv-footer { background: #16215c; color: #fff; display: flex; justify-content: space-between; padding: 10px 32px; margin: 18px -32px 0; font-size: 12px; }
+
+@media print {
+  body * { visibility: hidden; }
+  #tk-print-area, #tk-print-area * { visibility: visible; }
+  #tk-print-area { position: absolute; top: 0; left: 0; width: 100%; }
+}

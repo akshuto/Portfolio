@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKSHUTO — Graphic Design &amp; Video Editing</title>
+<meta name="description" content="AKSHUTO — graphic design and video editing portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/akshuto-logo.png" type="image/png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="logo">AKSHUTO<span>.</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="projects.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-layout">
+    <div class="hero-text">
+      <div class="duo-bar" aria-hidden="true"></div>
+      <h1 class="wordmark">AKSHUTO</h1>
+      <p class="hero-role">Graphic Designer &amp; Video Editor</p>
+      <p class="hero-bio">I have a habit of asking, “What if we made it better?” far more often than necessary. That curiosity follows me everywhere — from design and editing to films, music, and ridiculous little ideas that somehow turn into something worth making.</p>
+      <div class="hero-actions">
+        <a href="projects.html" class="btn btn-primary">See the work</a>
+        <a href="contact.html" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="avatar-ring">
+      <img data-avatar src="assets/akshuto-logo.png" alt="Akshuto profile picture">
+    </div>
+  </div>
+</header>
+
+<section class="section wrap">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">Featured work</h2>
+      <p class="section-sub">A mix of graphic design and video editing — orange marks design, ivory marks video.</p>
+    </div>
+    <a href="projects.html" class="btn btn-ghost">View all work</a>
+  </div>
+
+  <div class="work-grid" id="featured-work-grid">
+    <p class="note" style="grid-column: 1 / -1;">Loading featured work…</p>
+  </div>
+</section>
+
+<footer class="site-footer wrap">
+  <h2 class="footer-cta">Let's make something better.</h2>
+  <div class="footer-row">
+    <a href="mailto:akshaytu45@gmail.com" class="btn btn-primary">akshaytu45@gmail.com</a>
+    <ul class="socials">
+      <li><a href="https://instagram.com/akshh_.69" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://linkedin.com/in/akshuto" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://youtube.com/@Akshuto" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+  </div>
+  <p class="copyright">© 2026 Akshuto. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+<!-- Project viewer (opens when a work card is clicked) -->
+<div class="lightbox-overlay" id="lightbox">
+  <div class="lightbox-box">
+    <div class="lightbox-header">
+      <div>
+        <span class="tag" id="lightbox-tag"></span>
+        <h3 class="card-title" id="lightbox-title" style="margin-top: 6px;"></h3>
+        <p class="card-desc" id="lightbox-desc"></p>
+      </div>
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+    </div>
+    <div class="lightbox-media-grid" id="lightbox-grid"></div>
+  </div>
+</div>
+
+<script type="module" src="site-data.js"></script>
+</body>
+</html>

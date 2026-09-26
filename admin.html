@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — AKSHUTO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/akshuto-logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="admin.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="logo">AKSHUTO<span>.</span> <small style="font-family: var(--font-body); font-weight: 600; color: var(--muted); font-size: 13px;">/ admin</small></a>
+    <a href="index.html" class="btn btn-ghost" style="padding: 8px 16px; font-size: 13px;">Back to site</a>
+  </div>
+</nav>
+
+<!-- LOGIN VIEW -->
+<section id="login-view" class="wrap admin-section" style="max-width: 420px;">
+  <h1 class="section-title" style="margin-bottom: 6px;">Admin login</h1>
+  <p class="section-sub" style="margin-bottom: 28px;">Only you should have this password.</p>
+  <form id="login-form">
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" required autocomplete="username">
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" required autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Log in</button>
+    <p id="login-error" class="note" style="display:none; border-left-color: #d9534f;"></p>
+  </form>
+</section>
+
+<!-- DASHBOARD VIEW (hidden until logged in) -->
+<section id="dashboard-view" class="wrap admin-section" style="display:none;">
+  <div class="section-head">
+    <div>
+      <h1 class="section-title">Dashboard</h1>
+      <p class="section-sub">Changes here go live on your site immediately.</p>
+    </div>
+    <button id="logout-btn" class="btn btn-ghost">Log out</button>
+  </div>
+
+  <div class="admin-top-tabs">
+    <button class="admin-top-tab active" data-panel="portfolio-panel">Portfolio</button>
+    <button class="admin-top-tab" data-panel="tracker-panel">Tracker</button>
+  </div>
+
+  <div id="portfolio-panel" class="admin-panel">
+
+  <!-- Profile picture -->
+  <div class="admin-card">
+    <h2 class="admin-card-title">Profile picture</h2>
+    <div class="admin-avatar-row">
+      <img id="current-avatar" class="admin-avatar-preview" src="assets/akshuto-logo.png" alt="Current profile picture">
+      <div>
+        <input type="file" id="avatar-file" accept="image/*">
+        <p id="avatar-status" class="copy-hint"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add project -->
+  <div class="admin-card">
+    <h2 class="admin-card-title">Add a project</h2>
+    <form id="project-form">
+      <div class="field">
+        <label for="p-title">Title</label>
+        <input type="text" id="p-title" required>
+      </div>
+      <div class="field">
+        <label for="p-desc">Short description</label>
+        <textarea id="p-desc" required style="min-height: 70px;"></textarea>
+      </div>
+      <div class="field">
+        <label for="p-category">Category</label>
+        <select id="p-category">
+          <option value="graphic">Graphic Design</option>
+          <option value="video">Video Editing</option>
+        </select>
+      </div>
+      <div class="field">
+        <label><input type="checkbox" id="p-featured"> Show on home page (featured)</label>
+      </div>
+      <div class="field">
+        <label><input type="checkbox" id="p-wide"> Display as a wide card</label>
+      </div>
+      <div class="field">
+        <label for="p-file">Images or videos (select multiple to make this a folder/gallery)</label>
+        <input type="file" id="p-file" accept="image/*,video/*" multiple required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add project</button>
+      <p id="project-status" class="copy-hint"></p>
+    </form>
+  </div>
+
+  <!-- Manage existing projects -->
+  <div class="admin-card">
+    <h2 class="admin-card-title">Your projects</h2>
+    <div id="admin-project-list" class="admin-project-list">
+      <p class="note">Loading…</p>
+    </div>
+  </div>
+  </div><!-- /portfolio-panel -->
+
+  <div id="tracker-panel" class="admin-panel" style="display:none;">
+    <div class="tk-subtabs">
+      <button class="tk-subtab active" data-tksection="tk-dashboard">Dashboard</button>
+      <button class="tk-subtab" data-tksection="tk-projects">Projects</button>
+      <button class="tk-subtab" data-tksection="tk-invoices">Invoices</button>
+      <button class="tk-subtab" data-tksection="tk-settings">Settings</button>
+    </div>
+
+    <section id="tk-dashboard" class="tk-section">
+      <div class="tk-topbar">
+        <h2 class="admin-card-title" style="margin: 0;">Dashboard</h2>
+        <button class="btn btn-primary tk-new-project-btn">+ New project</button>
+      </div>
+      <div class="tk-cards" id="tkStatCards"></div>
+      <h3 style="margin-bottom: 12px;">Recent projects</h3>
+      <div id="tkRecentTableWrap"></div>
+    </section>
+
+    <section id="tk-projects" class="tk-section" style="display: none;">
+      <div class="tk-topbar">
+        <h2 class="admin-card-title" style="margin: 0;">Projects</h2>
+        <button class="btn btn-primary tk-new-project-btn">+ New project</button>
+      </div>
+      <div class="tk-tabs" id="tkStatusTabs">
+        <button data-f="all" class="active">All</button>
+        <button data-f="pending">Pending</button>
+        <button data-f="process">In process</button>
+        <button data-f="cleared">Cleared</button>
+      </div>
+      <div id="tkProjectsTableWrap"></div>
+    </section>
+
+    <section id="tk-invoices" class="tk-section" style="display: none;">
+      <div class="tk-topbar">
+        <h2 class="admin-card-title" style="margin: 0;">Invoices</h2>
+        <button class="btn btn-primary" id="tk-generate-invoice-btn">+ Generate invoice</button>
+      </div>
+      <p class="note">Pulls together every project with a pending amount so you can bill them all in one invoice — pick which ones to include below.</p>
+      <div id="tkInvoicesTableWrap"></div>
+    </section>
+
+    <section id="tk-settings" class="tk-section" style="display: none;">
+      <div class="admin-card">
+        <h2 class="admin-card-title">Company</h2>
+        <div class="tk-logo-row">
+          <div class="tk-logo-preview" id="tkLogoPreview">—</div>
+          <div style="flex: 1;">
+            <div class="field"><label>Company / brand name</label><input id="tk_companyName" placeholder="e.g. Akshuto"></div>
+            <input type="file" id="tk_logoFile" accept="image/*">
+          </div>
+        </div>
+        <div class="field" style="margin-top: 14px;"><label>Tagline / services line</label><input id="tk_companyTagline" placeholder="e.g. Video Editing and Graphic Design Services"></div>
+        <div class="tk-grid2">
+          <div class="field"><label>Contact email</label><input id="tk_companyEmail"></div>
+          <div class="field"><label>Contact phone</label><input id="tk_companyPhone"></div>
+        </div>
+        <div class="field"><label>Company seal (optional, shown on invoice)</label>
+          <div class="tk-logo-row">
+            <div class="tk-logo-preview" id="tkSealPreview">—</div>
+            <input type="file" id="tk_sealFile" accept="image/*">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h2 class="admin-card-title">Invoice numbering</h2>
+        <div class="field"><label>Next invoice number</label><input id="tk_nextInvoice" placeholder="e.g. #AK-26-01"></div>
+        <p class="note">Set this once for your first invoice. Each generated invoice bumps the trailing digits automatically.</p>
+      </div>
+
+      <div class="admin-card">
+        <h2 class="admin-card-title">Bank / payment accounts</h2>
+        <div id="tkBanksWrap"></div>
+        <button class="btn btn-ghost" id="tk-add-bank-btn" style="margin-top: 10px;">+ Add account</button>
+      </div>
+
+      <div class="admin-card">
+        <h2 class="admin-card-title">Terms and conditions</h2>
+        <div class="field"><label>One line per bullet — shown at the bottom of every invoice</label><textarea id="tk_terms" style="min-height: 80px;"></textarea></div>
+      </div>
+
+      <button class="btn btn-primary" id="tk-save-settings-btn">Save settings</button>
+      <p id="tk-settings-status" class="copy-hint"></p>
+    </section>
+  </div><!-- /tracker-panel -->
+</section>
+
+<!-- Tracker: new/edit project modal -->
+<div class="lightbox-overlay" id="tk-project-modal">
+  <div class="lightbox-box" style="max-width: 560px;">
+    <div class="lightbox-header">
+      <h2 class="admin-card-title" id="tk-project-modal-title" style="margin: 0;">New project</h2>
+      <button class="lightbox-close" id="tk-project-modal-close" aria-label="Close">✕</button>
+    </div>
+    <input type="hidden" id="tk_p_id">
+    <div class="field"><label>Client name</label><input id="tk_p_client" placeholder="Who is this for?"></div>
+    <div class="field"><label>Title</label><input id="tk_p_title" placeholder="e.g. Brand launch reel"></div>
+    <div class="tk-grid2">
+      <div class="field"><label>Type</label>
+        <select id="tk_p_type">
+          <option value="video">Video edit</option>
+          <option value="design">Graphic design</option>
+        </select>
+      </div>
+      <div class="field"><label>Date submitted</label><input type="date" id="tk_p_date"></div>
+    </div>
+    <div class="field" id="tk_p_durationWrap"><label>Video duration (e.g. 2:30)</label><input id="tk_p_duration"></div>
+    <div class="field" id="tk_p_slidesWrap" style="display: none;"><label>No. of slides</label><input type="number" id="tk_p_slides" min="0"></div>
+    <div class="tk-grid2">
+      <div class="field"><label>Total amount (₹)</label><input type="number" id="tk_p_amount" min="0"></div>
+      <div class="field"><label>Amount received (₹)</label><input type="number" id="tk_p_received" min="0" value="0"></div>
+    </div>
+    <p class="note" id="tk-pending-preview"></p>
+    <div class="tk-grid2">
+      <div class="field"><label>Payment status</label>
+        <select id="tk_p_status">
+          <option value="pending">Pending</option>
+          <option value="process">In process</option>
+          <option value="cleared">Cleared</option>
+        </select>
+      </div>
+      <div class="field"><label>Received via account</label><select id="tk_p_bank"></select></div>
+    </div>
+    <button class="btn btn-primary" id="tk-save-project-btn">Save project</button>
+    <p id="tk-project-status" class="copy-hint"></p>
+  </div>
+</div>
+
+<!-- Tracker: invoice selection modal -->
+<div class="lightbox-overlay" id="tk-invoice-select-modal">
+  <div class="lightbox-box" style="max-width: 640px;">
+    <div class="lightbox-header">
+      <h2 class="admin-card-title" style="margin: 0;">Generate invoice</h2>
+      <button class="lightbox-close" id="tk-invoice-select-close" aria-label="Close">✕</button>
+    </div>
+    <div class="field"><label>Bill to</label><input id="tk_inv_billTo" placeholder="Who is this invoice for?"></div>
+    <div class="field" style="display: flex; justify-content: space-between; align-items: center;">
+      <label style="margin: 0;">Include pending projects</label>
+      <button class="btn btn-ghost" id="tk-toggle-all-invoice-btn" style="padding: 6px 12px; font-size: 13px;">Select / deselect all</button>
+    </div>
+    <div id="tk-invoice-select-list" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px;"></div>
+    <button class="btn btn-primary" id="tk-preview-invoice-btn" style="margin-top: 16px;">Preview invoice</button>
+  </div>
+</div>
+
+<!-- Tracker: invoice preview/print modal -->
+<div class="lightbox-overlay" id="tk-invoice-preview-modal">
+  <div class="lightbox-box" style="max-width: 780px;">
+    <div id="tk-print-area" class="tk-invoice-doc"></div>
+    <div class="lightbox-header" style="margin-top: 20px; justify-content: space-between;">
+      <button class="btn btn-ghost" id="tk-invoice-close-btn">Close</button>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn btn-ghost" id="tk-print-btn">Print</button>
+        <button class="btn btn-ghost" id="tk-download-pdf-btn">Download PDF</button>
+        <button class="btn btn-primary" id="tk-confirm-invoice-btn">Save invoice &amp; advance number</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT PROJECT MODAL -->
+<div class="lightbox-overlay" id="edit-modal">
+  <div class="lightbox-box" style="max-width: 640px;">
+    <div class="lightbox-header">
+      <h2 class="admin-card-title" style="margin: 0;">Edit project</h2>
+      <button class="lightbox-close" id="edit-close" aria-label="Close">✕</button>
+    </div>
+
+    <div class="field">
+      <label for="e-title">Title</label>
+      <input type="text" id="e-title">
+    </div>
+    <div class="field">
+      <label for="e-desc">Short description</label>
+      <textarea id="e-desc" style="min-height: 70px;"></textarea>
+    </div>
+    <div class="field">
+      <label for="e-category">Category</label>
+      <select id="e-category">
+        <option value="graphic">Graphic Design</option>
+        <option value="video">Video Editing</option>
+      </select>
+    </div>
+    <div class="field">
+      <label><input type="checkbox" id="e-featured"> Show on home page (featured)</label>
+    </div>
+    <div class="field">
+      <label><input type="checkbox" id="e-wide"> Display as a wide card</label>
+    </div>
+
+    <div class="field">
+      <label>Files in this folder — click a thumbnail to set it as the cover, or the ✕ to remove it</label>
+      <div id="edit-file-grid" class="edit-file-grid"></div>
+    </div>
+
+    <div class="field">
+      <label for="e-add-files">Add more files to this folder</label>
+      <input type="file" id="e-add-files" accept="image/*,video/*" multiple>
+    </div>
+
+    <button id="edit-save-btn" class="btn btn-primary">Save changes</button>
+    <p id="edit-status" class="copy-hint"></p>
+  </div>
+</div>
+
+<script type="module" src="admin.js"></script>
+<script type="module" src="tracker.js"></script>
+</body>
+</html>
