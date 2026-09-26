@@ -425,25 +425,66 @@ img, video { max-width: 100%; display: block; }
 .card-desc { color: var(--muted); font-size: 14.5px; margin: 0; }
 
 /* ---------- tools row (homepage) ---------- */
+.tools-section {
+  padding-bottom: 64px;
+}
+
+.tools-section-head {
+  margin-bottom: 32px;
+}
+
 .tools-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  justify-content: center;
+  align-items: stretch;
+  gap: 18px;
+  width: 100%;
 }
 
 .tool-pill {
+  min-width: 150px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 18px;
+  border-radius: 14px;
+  padding: 22px 20px;
   font-size: 14.5px;
   font-weight: 600;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
-.tool-pill img { width: 22px; height: 22px; }
+.tool-pill:hover {
+  transform: translateY(-3px);
+  border-color: rgba(243, 241, 234, 0.22);
+  background: var(--surface-alt);
+}
+
+.tool-pill img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.tool-pill span {
+  line-height: 1.25;
+}
+
+@media (max-width: 560px) {
+  .tools-row {
+    gap: 12px;
+  }
+
+  .tool-pill {
+    min-width: 135px;
+    flex: 1 1 135px;
+  }
+}
 
 /* ---------- folder / gallery cards ---------- */
 .folder-card {
