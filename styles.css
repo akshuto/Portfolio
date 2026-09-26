@@ -424,6 +424,27 @@ img, video { max-width: 100%; display: block; }
 
 .card-desc { color: var(--muted); font-size: 14.5px; margin: 0; }
 
+/* ---------- tools row (homepage) ---------- */
+.tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.tool-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.tool-pill img { width: 22px; height: 22px; }
+
 /* ---------- folder / gallery cards ---------- */
 .folder-card {
   position: relative;
