@@ -40,7 +40,7 @@ function mediaListFor(p) {
 
 function cardHTML(id, p) {
   const media = mediaListFor(p);
-  const cover = media[0];
+  const cover = p.thumbnailUrl ? { url: p.thumbnailUrl, type: "image" } : media[0];
   const wideClass = p.wide ? " wide" : "";
   const tagClass = p.category === "video" ? "video" : "graphic";
   const tagLabel = p.category === "video" ? "Video Editing" : "Graphic Design";
