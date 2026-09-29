@@ -132,9 +132,17 @@ function initDashboard() {
     e.preventDefault();
     const status = document.querySelector("#project-status");
     const files = Array.from(document.querySelector("#p-file").files);
+    const thumbFile = document.querySelector("#p-thumb").files[0];
     if (!files.length) return;
 
     try {
+      let thumbnailUrl = "";
+      if (thumbFile) {
+        status.textContent = "Uploading thumbnail…";
+        const thumbResult = await uploadToCloudinary(thumbFile);
+        thumbnailUrl = thumbResult.url;
+      }
+
       if (files.length === 1) {
         // Single image or video, same as before.
         status.textContent = "Uploading…";
@@ -147,6 +155,7 @@ function initDashboard() {
           wide: document.querySelector("#p-wide").checked,
           mediaType: resourceType === "video" ? "video" : "image",
           mediaUrl: url,
+          thumbnailUrl,
           order: Date.now(),
           createdAt: serverTimestamp(),
         });
@@ -168,6 +177,7 @@ function initDashboard() {
           mediaType: "gallery",
           mediaUrl: urls[0],
           mediaUrls: urls,
+          thumbnailUrl,
           order: Date.now(),
           createdAt: serverTimestamp(),
         });
@@ -193,10 +203,11 @@ function initDashboard() {
       .map((d) => {
         const p = d.data();
         projectsCache[d.id] = p;
+        const thumbUrl = p.thumbnailUrl || p.mediaUrl;
         const thumb =
-          p.mediaType === "video"
-            ? `<video class="admin-project-thumb" src="${p.mediaUrl}" muted></video>`
-            : `<img class="admin-project-thumb" src="${p.mediaUrl}" alt="">`;
+          !p.thumbnailUrl && p.mediaType === "video"
+            ? `<video class="admin-project-thumb" src="${thumbUrl}" muted></video>`
+            : `<img class="admin-project-thumb" src="${thumbUrl}" alt="">`;
         return `
           <div class="admin-project-row">
             ${thumb}
@@ -229,9 +240,23 @@ function initDashboard() {
   let editingId = null;
   let editingFiles = []; // [{url, type}]
   let editingCover = null;
+  let editingThumbnail = null; // custom thumbnail URL, or null if none set
 
   function fileTypeFromUrl(url) {
     return url.includes("/video/upload/") ? "video" : "image";
+  }
+
+  function refreshThumbPreview() {
+    const img = document.querySelector("#e-thumb-preview");
+    const removeBtn = document.querySelector("#e-thumb-remove");
+    if (editingThumbnail) {
+      img.src = editingThumbnail;
+      img.style.display = "block";
+      removeBtn.style.display = "inline-block";
+    } else {
+      img.style.display = "none";
+      removeBtn.style.display = "none";
+    }
   }
 
   function openEditModal(id, p) {
@@ -243,6 +268,7 @@ function initDashboard() {
         ? [{ url: p.mediaUrl, type: p.mediaType === "video" ? "video" : "image" }]
         : [];
     editingCover = p.mediaUrl || (editingFiles[0] && editingFiles[0].url) || null;
+    editingThumbnail = p.thumbnailUrl || null;
 
     document.querySelector("#e-title").value = p.title || "";
     document.querySelector("#e-desc").value = p.description || "";
@@ -250,8 +276,10 @@ function initDashboard() {
     document.querySelector("#e-featured").checked = !!p.featured;
     document.querySelector("#e-wide").checked = !!p.wide;
     document.querySelector("#e-add-files").value = "";
+    document.querySelector("#e-thumb-file").value = "";
     document.querySelector("#edit-status").textContent = "";
 
+    refreshThumbPreview();
     renderEditGrid();
     editModal.classList.add("open");
   }
@@ -260,6 +288,27 @@ function initDashboard() {
     editModal.classList.remove("open");
     editingId = null;
   }
+
+  document.querySelector("#e-thumb-file").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const status = document.querySelector("#edit-status");
+    try {
+      status.textContent = "Uploading thumbnail…";
+      const { url } = await uploadToCloudinary(file);
+      editingThumbnail = url;
+      status.textContent = "";
+      refreshThumbPreview();
+    } catch (err) {
+      status.textContent = err.message || "Upload failed — please try again.";
+    }
+    e.target.value = "";
+  });
+
+  document.querySelector("#e-thumb-remove").addEventListener("click", () => {
+    editingThumbnail = null;
+    refreshThumbPreview();
+  });
 
   function renderEditGrid() {
     editFileGrid.innerHTML = editingFiles
@@ -331,6 +380,7 @@ function initDashboard() {
       category: document.querySelector("#e-category").value,
       featured: document.querySelector("#e-featured").checked,
       wide: document.querySelector("#e-wide").checked,
+      thumbnailUrl: editingThumbnail || "",
     };
 
     if (editingFiles.length > 1) {
