@@ -97,6 +97,10 @@
         <label for="p-file">Images or videos (select multiple to make this a folder/gallery)</label>
         <input type="file" id="p-file" accept="image/*,video/*" multiple required>
       </div>
+      <div class="field">
+        <label for="p-thumb">Custom thumbnail (optional — otherwise the first file above is used as the cover)</label>
+        <input type="file" id="p-thumb" accept="image/*">
+      </div>
       <button type="submit" class="btn btn-primary">Add project</button>
       <p id="project-status" class="copy-hint"></p>
     </form>
@@ -309,6 +313,17 @@
     <div class="field">
       <label for="e-add-files">Add more files to this folder</label>
       <input type="file" id="e-add-files" accept="image/*,video/*" multiple>
+    </div>
+
+    <div class="field">
+      <label>Custom thumbnail (overrides whichever file is set as cover above)</label>
+      <div class="admin-avatar-row">
+        <img id="e-thumb-preview" class="admin-avatar-preview" style="border-radius: 10px; display: none;" alt="Custom thumbnail preview">
+        <div>
+          <input type="file" id="e-thumb-file" accept="image/*">
+          <button type="button" id="e-thumb-remove" class="admin-delete-btn" style="margin-top: 8px; display: none;">Remove custom thumbnail</button>
+        </div>
+      </div>
     </div>
 
     <button id="edit-save-btn" class="btn btn-primary">Save changes</button>
